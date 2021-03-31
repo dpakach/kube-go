@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-go-deployment
+  labels:
+    app: kube-go
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kube-go
+
+  template:
+    metadata:
+      labels:
+        app: kube-go
+
+    spec:
+      containers:
+        - name: kube-go
+          image: dpakach/kube-go
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SIMPLE_ENV
+              value: simple_value
+            - name: CONFIG_VALUE
+              valueFrom:
+                configMapKeyRef:
+                  name: kube-go-config
+                  key: config_value
+            - name: SECRET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kube-go-secret
+                  key: secret_pass
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-go-service
+spec:
+  selector:
+    app: kube-go
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000
+
