@@ -3,8 +3,8 @@ Testing out deploying simple go application in local kubernetes cluster with min
 
 ### Commands available
 - `make build` - Build the go binary
-- `make docker-build` - Build the docker image for the image
-- `make docker-push` - Build the go binary (change the image name to push to your docker hub)
+- `make docker-build` - Build the docker image for the app
+- `make docker-push` - Push docker image to docker hub (change the image name to push to your docker hub)
 - `make docker-run` - Run the docker image
 
 
@@ -15,7 +15,7 @@ To run the app in kubernetes cluster use following commands
 minikube start
 ```
 
-- First create the configmap and secret
+- Then create the configmap and secret
 ```
 kubectl apply -f kube-go-secret.yaml
 kubectl apply -f kube-go-config.yaml
